@@ -2,7 +2,7 @@ from json import loads
 from typing import List
 from numpy import zeros
 
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
 
 from app import geocode
 
@@ -27,18 +27,7 @@ def geocode_procedure():
         } ...
     ]              
     """
-
-    if request.is_json:
-        body = request.get_json()
-    else:
-        return make_response(
-            jsonify(
-                InvalidUsageError(
-                    f"Incorrect request format! Content type received '{request.content_type}' instead of 'application/json'"
-                )
-            ),
-            400,
-        )
+    body = loads(request.data)
 
     zipcodes = zeros(len(body))
     countries = zeros(len(body))
