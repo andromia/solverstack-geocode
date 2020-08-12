@@ -1,15 +1,15 @@
 version: "3"
 
 services:
-    flask_api_dev:
-        image: flask_geo_api_dev:1.00
-        container_name: flask_geo_api_dev
+    flask_geo_dev:
+        image: flask_geo_dev:1.00
+        container_name: flask_geo_dev
         restart: unless-stopped
-        command: manage.py runserver --host=0.0.0.0
+        command: manage.py runserver --host=0.0.0.0 --port=5004
         build:
             context: ../
             dockerfile: .dev-tools/Dockerfile
         ports:
-            - "5000:5000"
+            - "5004:5004"
         volumes:
             - ..:/usr/app
