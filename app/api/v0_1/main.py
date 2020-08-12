@@ -1,6 +1,5 @@
 from json import loads
 from typing import List
-from numpy import zeros
 
 from flask import jsonify, make_response, request
 
@@ -29,8 +28,8 @@ def geocode_procedure():
     """
     body = loads(request.data)
 
-    zipcodes = zeros(len(body))
-    countries = zeros(len(body))
+    zipcodes = [None] * len(body)
+    countries = [None] * len(body)
 
     for i, row in enumerate(body):
         zipcodes[i] = row["zipcode"].strip()[:5].zfill(5)
