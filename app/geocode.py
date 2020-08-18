@@ -17,6 +17,5 @@ def geocode_zipcodes(zipcodes: list, countries: list):
         results = nomi.query_postal_code(zipcodes[i])
 
         geocodes.append([results.latitude, results.longitude])
-    
-    return geocodes
 
+    return geocodes
