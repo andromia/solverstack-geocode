@@ -17,3 +17,10 @@ def get_csv():
     return df
 
 TESTING_CSV_DF = get_csv()
+
+DATA = [
+    {
+        "zipcode": TESTING_CSV_DF.zipcode.iloc[i], 
+        "country": TESTING_CSV_DF.country.iloc[i]
+    } for i in range(len(TESTING_CSV_DF))
+]

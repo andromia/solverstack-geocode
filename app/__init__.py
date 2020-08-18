@@ -7,6 +7,7 @@ from flask_caching import Cache
 from flask_cors import CORS
 
 from config import Config
+__version__ = "v0.1"
 
 cache = Cache()
 
