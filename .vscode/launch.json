@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "tetsting",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "pythonPath": "${workspaceRoot}/venv/Scripts/python.exe",
+            "module": "pytest",
+            "cwd": "${workspaceRoot}"
+        }
+    ]
+}
