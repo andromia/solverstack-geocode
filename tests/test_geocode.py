@@ -1,41 +1,24 @@
 from . import common
-from app import geocode, create_app
-from app import __version__
-
-from config import Config
-
-from . import common
+from app import geocode
 
 import logging
-import pytest
 import json
+from typing import List
 
 
-class TestConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
-
-
-@pytest.fixture
-def client():
-    yield create_app(TestConfig).test_client()
-
-
-def test_main_procedure(client):
-    input_data = common.DATA
+def test_main_procedure(client, data, auth_header):
+    input_data: dict = {"stack_id": 1, "zipcodes": data}
     logging.debug(f"input data : {input_data}")
+    logging.debug(f"endpoint: {common.ENDPOINT}")
 
-    endpoint = f"/api/{__version__}/geocode"
-    logging.debug(f"endpoint: {endpoint}")
+    response = client.post(common.ENDPOINT, headers=auth_header, json=input_data)
+    output: dict = json.loads(response.get_data())
 
-    response = client.post(endpoint, json=input_data)
-    output = json.loads(response.get_data())
-
-    assert len(output) == len(common.DATA)
+    assert len(output["geocodes"]) == len(data)
 
 
-def test_geocode():
-    zipcodes = common.TESTING_CSV_DF.zipcode.str.zfill(5).tolist()
-    countries = common.TESTING_CSV_DF.country.str.lower()
+def test_geocode(df):
+    zipcodes: List[str] = df.zipcode.str.zfill(5).tolist()
+    countries: List[str] = df.country.str.lower()
 
     len(zipcodes) == len(geocode.geocode_zipcodes(zipcodes, countries))

@@ -6,17 +6,29 @@
 ## input
 
 ```
-[
-    {"zipcode": str, "country": str}
-]
+{   
+    "stack_id": int,
+    "zipcodes": [
+        {"zipcode": str, "country": str}
+    ]
+}
 ```
 
 ## output
 
 ```
-[
-    {"zipcode": str, "country": str, "latitude": float, "longitude": float}
-]
+{
+    "stack_id": int,
+    "geocodes": [
+        {
+            "id": int,
+            "zipcode": str, 
+            "country": str, 
+            "latitude": float, 
+            "longitude": float
+        }
+    ]
+}
 ```
 
 # countries
