@@ -4,9 +4,10 @@ from app import geocode
 import logging
 import json
 from typing import List
+from pandas import DataFrame
 
 
-def test_main_procedure(client, data, auth_header):
+def test_main_procedure(client, auth_header: dict, data: List[dict]):
     input_data: dict = {"stack_id": 1, "zipcodes": data}
     logging.debug(f"input data : {input_data}")
     logging.debug(f"endpoint: {common.ENDPOINT}")
@@ -17,7 +18,7 @@ def test_main_procedure(client, data, auth_header):
     assert len(output["geocodes"]) == len(data)
 
 
-def test_geocode(df):
+def test_geocode(df: DataFrame):
     zipcodes: List[str] = df.zipcode.str.zfill(5).tolist()
     countries: List[str] = df.country.str.lower()
 
