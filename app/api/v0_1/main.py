@@ -31,23 +31,19 @@ def geocode_procedure():
 
     geocodes: list = geocode.geocode_zipcodes(zipcodes, countries)
 
-    results = {
-        "stack_id": stack_id,
-        "geocodes": [
-            {
-                "zipcode": body["zipcodes"][i]["zipcode"],
-                "country": body["zipcodes"][i]["country"],
-                "latitude": geo[0],
-                "longitude": geo[1],
-            }
-            for i, geo in enumerate(geocodes)
-        ],
-    }
+    results = {"stack_id": stack_id, "geocodes": []}
+
+    for i, geo in enumerate(geocodes):
+        new_data = body["zipcodes"][i]
+        new_data["latitude"] = geo[0]
+        new_data["longitude"] = geo[1]
+
+        results["geocodes"].append(new_data)
 
     try:
         if not request.headers.get("Authorization"):
             raise ValueError("Unauthorized request")
-        
+
         response = requests.post(CRUD_URL, headers=request.headers, json=results,)
 
         return make_response(jsonify(loads(response.text)), 200)
