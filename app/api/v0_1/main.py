@@ -8,7 +8,7 @@ from flask import jsonify, make_response, request
 import requests
 
 
-CRUD_URL: str = "http://localhost:5006/api/v0.1/geocode"
+CRUD_URL: str = "http://localhost:5004/api/v0.1/geocode"
 
 
 @bp.route("/geocode", methods=["POST"])
@@ -27,7 +27,7 @@ def geocode_procedure():
 
     for i, row in enumerate(body["zipcodes"]):
         zipcodes[i]: str = row["zipcode"].strip()[:5].zfill(5)
-        countries[i]: str = row["country"].strip().lower()
+        countries[i]: str = row["country"].strip()
 
     geocodes: list = geocode.geocode_zipcodes(zipcodes, countries)
 
@@ -35,8 +35,8 @@ def geocode_procedure():
         "stack_id": stack_id,
         "geocodes": [
             {
-                "zipcode": zipcodes[i],
-                "country": countries[i],
+                "zipcode": body["zipcodes"][i]["zipcode"],
+                "country": body["zipcodes"][i]["country"],
                 "latitude": geo[0],
                 "longitude": geo[1],
             }
@@ -45,6 +45,9 @@ def geocode_procedure():
     }
 
     try:
+        if not request.headers.get("Authorization"):
+            raise ValueError("Unauthorized request")
+        
         response = requests.post(CRUD_URL, headers=request.headers, json=results,)
 
         return make_response(jsonify(loads(response.text)), 200)

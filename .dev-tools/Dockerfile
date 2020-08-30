@@ -18,5 +18,5 @@ ENV FLASK_ENV development
 ENV DEBUG 1
 
 # Set and expose port
-ENV PORT 5004
-EXPOSE 5004
+ENV PORT 5001
+EXPOSE 5001
