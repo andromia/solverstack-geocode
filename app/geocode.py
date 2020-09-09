@@ -1,4 +1,5 @@
 import pgeocode
+import numpy as np
 
 
 def geocode_zipcodes(zipcodes: list, countries: list):
@@ -16,6 +17,9 @@ def geocode_zipcodes(zipcodes: list, countries: list):
         nomi = pgeocode.Nominatim(country)
         results = nomi.query_postal_code(zipcodes[i])
 
-        geocodes.append([results.latitude, results.longitude])
+        lat = np.nan_to_num(results.latitude)
+        lon = np.nan_to_num(results.longitude)
+
+        geocodes.append([lat, lon])
 
     return geocodes
